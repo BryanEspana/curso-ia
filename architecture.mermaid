@@ -1,0 +1,19 @@
+C4Container
+    title Container diagram for Mini Jira MVP
+
+    Person(admin, "Administrador", "Gestiona todo el flujo, ve dashboard.")
+    Person(user, "Usuario Estándar", "Crea y mueve tickets.")
+
+    System_Boundary(c1, "Mini Jira") {
+        Container(web_app, "Aplicación Web", "Next.js, React, TailwindCSS", "Provee la interfaz Kanban y Dashboard.")
+        Container(api, "API Routes / Server Actions", "Next.js", "Maneja la lógica de negocio y comunicación con BD.")
+        ContainerDb(db, "Supabase Database", "PostgreSQL", "Almacena usuarios, tickets y comentarios.")
+    }
+
+    System_Ext(email_sys, "Sistema de Email", "Envía notificaciones de asignación.")
+
+    Rel(admin, web_app, "Usa", "HTTPS")
+    Rel(user, web_app, "Usa", "HTTPS")
+    Rel(web_app, api, "Llama a", "JSON/HTTPS")
+    Rel(api, db, "Lee y escribe en", "SQL/TCP")
+    Rel(api, email_sys, "Envía correos vía", "SMTP")

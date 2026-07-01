@@ -1,0 +1,12 @@
+sequenceDiagram
+    actor U as Usuario
+    participant F as Frontend (React)
+    participant A as API (Next.js)
+    participant DB as Supabase (PostgreSQL)
+
+    U->>F: Arrastra ticket a "Done"
+    F->>A: PATCH /api/tickets/123 {status: "Done"}
+    A->>DB: UPDATE tickets SET status='Done' WHERE id=123
+    DB-->>A: OK (Ticket actualizado)
+    A-->>F: 200 OK (Datos del ticket)
+    F-->>U: Actualiza UI (Ticket visible en "Done")

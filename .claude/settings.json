@@ -1,0 +1,10 @@
+{
+  "model": "claude-sonnet-4-6",
+  "permissions": {
+    "allow": ["Bash", "Edit", "Read"],
+    "deny": ["Read(.env.secret)"]
+  },
+  "env": {
+    "NODE_ENV": "development"
+  }
+}

@@ -1,0 +1,27 @@
+Actúa como PM Senior. Analiza la transcripción adjunta y hazme 3 preguntas exhaustivas sobre permisos, datos y concurrencia que los stakeholders omitieron.
+Consolida las respuestas en un PRD (specs.md) con In-Scope, Out-Scope y Stack Tecnológico.
+
+Actúa como Producto Owner. Basado en el PRD, redacta las 3 Historias de Usuario críticas para el MVP usando formato BDD Gherkin declarativo.
+
+Deduce 2 Edge Cases o escenarios de fallo (ej: edición concurrente, entradas nulas). Escríbelos también en Gherkin.
+
+Actúa como QA Lead Senior. Genera un Plan de Pruebas enfocado en los criterios de aceptación Gherkin del backlog anterior.
+
+Identifica 5 Edge Cases críticos (fallas de red, entradas nulas, concurrencia extrema) que puedan romper el MVP. Usa matriz de priorización de riesgo.
+
+USO DE MERMAID
+
+
+Genera un diagrama Entidad-Relación en Mermaid (erDiagram) para el Mini Jira. Incluye entidades Usuarios, Tickets y sus relaciones con cardinalidad."
+ 
+Basado en el ER anterior, genera el SQL para crear estas tablas en Supabase (PostgreSQL). Incluye RLS policies básicas y timestamps con timezone."
+ 
+Basado en el ER anterior, genera el SQL para crear estas tablas en Supabase (PostgreSQL). Incluye RLS policies básicas y timestamps con timezone."
+ 
+Añade comandos INSERT para poblar Supabase con Mock Data realista: 3 usuarios y 5 tickets en estados To-Do, In-Progress y Done."
+ 
+Guarda el ER como er_diagram.mermaid
+ 
+stitch: Genera únicamente la vista principal estática (Dashboard) del Mini JIRA. Muestra un tablero Kanban con las columnas To-Do, In Progress y Done, pobladas con datos de ejemplo.
+
+correo: gmorales@bdgsa.net

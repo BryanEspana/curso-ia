@@ -1,0 +1,30 @@
+erDiagram
+    USERS {
+        uuid id PK
+        string email
+        string role "Admin | User"
+        timestamp created_at
+    }
+    TICKETS {
+        uuid id PK
+        string title
+        text description
+        string status "To-Do | In-Progress | Done"
+        string priority "Low | Medium | High"
+        uuid assigned_to FK
+        uuid created_by FK
+        timestamp created_at
+        timestamp updated_at
+    }
+    COMMENTS {
+        uuid id PK
+        uuid ticket_id FK
+        uuid author_id FK
+        text content
+        timestamp created_at
+    }
+
+    USERS ||--o{ TICKETS : "creates"
+    USERS ||--o{ TICKETS : "is assigned to"
+    TICKETS ||--o{ COMMENTS : "has"
+    USERS ||--o{ COMMENTS : "writes"
