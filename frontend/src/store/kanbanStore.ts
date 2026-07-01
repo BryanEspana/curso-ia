@@ -29,17 +29,12 @@ export const useKanbanStore = create<KanbanState>((set, get) => ({
   setTasks: (tasks) => set({ tasks }),
   updateTaskStatus: async (id, newStatus) => {
     // Simulando una llamada al backend que tarda 1 segundo (Latencia de red)
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve) => {
       setTimeout(() => {
-        // Simulamos un fallo aleatorio (20% de probabilidad) para demostrar el Rollback automático
-        if (Math.random() < 0.2) {
-          reject(new Error('❌ Error de Red: Fallo al actualizar la tarea en BD'));
-        } else {
-          set((state) => ({
-            tasks: state.tasks.map(t => t.id === id ? { ...t, status: newStatus } : t)
-          }));
-          resolve();
-        }
+        set((state) => ({
+          tasks: state.tasks.map(t => t.id === id ? { ...t, status: newStatus } : t)
+        }));
+        resolve();
       }, 1000);
     });
   }

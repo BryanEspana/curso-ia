@@ -1,0 +1,81 @@
+# database-schema.yaml
+tables:
+  users:
+    columns:
+      id: uuid PK
+      email: text NOT NULL UNIQUE
+      name: text NOT NULL
+      avatar_url: text
+      created_at: timestamptz DEFAULT now()
+
+  projects:
+    columns:
+      id: uuid PK
+      name: text NOT NULL
+      created_by: uuid FK->users.id
+      created_at: timestamptz DEFAULT now()
+
+  project_members:
+    columns:
+      project_id: uuid FK->projects.id
+      user_id: uuid FK->users.id
+      role: enum(ADMIN, MEMBER, VIEWER)
+    pk: [project_id, user_id]
+
+  tags:
+    columns:
+      id: uuid PK
+      name: text NOT NULL UNIQUE
+      color: text
+
+  tickets:
+    columns:
+      id: uuid PK
+      title: text NOT NULL MAX:255
+      description: text
+      status: enum(TODO, IN_PROGRESS, DONE, BLOCKED, REVIEW)
+      priority: enum(HIGH, MEDIUM, LOW)
+      project_id: uuid FK->projects.id
+      created_by: uuid FK->users.id
+      archived_at: timestamptz # soft delete
+      created_at: timestamptz DEFAULT now()
+    indexes: [status, priority, project_id]
+
+  ticket_assignees:
+    columns:
+      ticket_id: uuid FK->tickets.id
+      user_id: uuid FK->users.id
+    pk: [ticket_id, user_id]
+
+  ticket_tags:
+    columns:
+      ticket_id: uuid FK->tickets.id
+      tag_id: uuid FK->tags.id
+    pk: [ticket_id, tag_id]
+
+  comments:
+    columns:
+      id: uuid PK
+      ticket_id: uuid FK->tickets.id
+      user_id: uuid FK->users.id
+      content: text NOT NULL
+      created_at: timestamptz DEFAULT now()
+
+  ticket_locks:
+    columns:
+      ticket_id: uuid PK FK->tickets.id
+      locked_by: uuid FK->users.id
+      locked_at: timestamptz NOT NULL DEFAULT now()
+      expires_at: timestamptz NOT NULL # timeout 15 min
+    note: "liberar cuando expires_at < now()"
+
+  audit_log:
+    note: immutable
+    columns:
+      id: uuid PK
+      ticket_id: uuid FK->tickets.id
+      user_id: uuid FK->users.id
+      field: text NOT NULL
+      old_value: text
+      new_value: text
+      changed_at: timestamptz DEFAULT now()
