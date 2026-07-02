@@ -1,4 +1,5 @@
 import { create } from 'zustand';
+import { updateTicketStatusApi } from '../lib/api';
 
 export type Status = 'To-Do' | 'In-Progress' | 'Done';
 export type Priority = 'Low' | 'Medium' | 'High';
@@ -28,14 +29,12 @@ export const useKanbanStore = create<KanbanState>((set, get) => ({
   tasks: mockTasks,
   setTasks: (tasks) => set({ tasks }),
   updateTaskStatus: async (id, newStatus) => {
-    // Simulando una llamada al backend que tarda 1 segundo (Latencia de red)
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        set((state) => ({
-          tasks: state.tasks.map(t => t.id === id ? { ...t, status: newStatus } : t)
-        }));
-        resolve();
-      }, 1000);
-    });
+    // 1. Llamada a la API real (Backend Next.js)
+    await updateTicketStatusApi(id, newStatus);
+    
+    // 2. Si es exitoso, actualizar el store local (Optimistic UI ya ocurrió en KanbanBoard)
+    set((state) => ({
+      tasks: state.tasks.map(t => t.id === id ? { ...t, status: newStatus } : t)
+    }));
   }
 }));
